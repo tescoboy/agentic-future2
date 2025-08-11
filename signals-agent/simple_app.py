@@ -1,45 +1,70 @@
 #!/usr/bin/env python3
-"""Simple FastAPI app for Railway deployment."""
+"""Simple HTTP server for Railway deployment - no external dependencies."""
 
 import os
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
+import json
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from datetime import datetime
 
-app = FastAPI()
-
-# Add CORS middleware to allow Railway health checks
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins including Railway
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-)
-
-@app.get("/health")
-async def health(request: Request):
-    """Health check endpoint for Railway - handles healthcheck.railway.app hostname."""
-    # Log the hostname for debugging
-    host = request.headers.get("host", "unknown")
-    print(f"Health check from host: {host}")
+class SimpleHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/health":
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', '*')
+            self.end_headers()
+            
+            # Get hostname for debugging
+            host = self.headers.get('Host', 'unknown')
+            print(f"Health check from host: {host}")
+            
+            response = {"ok": True, "mode": "production", "host": host}
+            self.wfile.write(json.dumps(response).encode())
+            
+        elif self.path == "/":
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', '*')
+            self.end_headers()
+            
+            host = self.headers.get('Host', 'unknown')
+            response = {
+                "message": "Signals Agent API", 
+                "status": "running",
+                "host": host,
+                "timestamp": datetime.now().isoformat()
+            }
+            self.wfile.write(json.dumps(response).encode())
+            
+        else:
+            self.send_response(404)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            response = {"error": "Not found", "path": self.path}
+            self.wfile.write(json.dumps(response).encode())
     
-    # Allow health checks from Railway's hostname
-    if "healthcheck.railway.app" in host:
-        print("Railway health check detected")
-    
-    return {"ok": True, "mode": "production", "host": host}
-
-@app.get("/")
-async def root(request: Request):
-    """Root endpoint for Railway health checks."""
-    host = request.headers.get("host", "unknown")
-    return {
-        "message": "Signals Agent API", 
-        "status": "running",
-        "host": host
-    }
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', '*')
+        self.end_headers()
 
 if __name__ == "__main__":
-    import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("simple_app:app", host="0.0.0.0", port=port, reload=False)
+    print(f"Starting simple HTTP server on port {port}")
+    print(f"Health check will be available at: http://0.0.0.0:{port}/health")
+    
+    server = HTTPServer(('0.0.0.0', port), SimpleHandler)
+    print(f"Server started at http://0.0.0.0:{port}")
+    print("Press Ctrl+C to stop")
+    
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nShutting down server...")
+        server.shutdown()
