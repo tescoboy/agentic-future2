@@ -13,20 +13,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from dotenv import load_dotenv
-from api_models import (
-    DiscoveryRequest, DiscoveryResponse, SignalMatch, Proposal,
-    ActivationRequest, ActivationResponse, StatusResponse, HealthResponse
-)
-from services.proposal_validator import ProposalValidator
-from services.ai_ranking import AIRankingService
-from services.signal_discovery import SignalDiscoveryService
-from services.activation_service import ActivationService
-from services.status_simulator import StatusSimulator
-from database import get_db_connection
 
-# Load environment variables
-load_dotenv()
+# Load environment variables safely
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    print("Warning: python-dotenv not available, using system environment variables")
 
 # Configure logging
 logging.basicConfig(
@@ -52,14 +45,7 @@ app = FastAPI(
 # Add CORS middleware for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",  # Vite default
-        "http://127.0.0.1:5173",
-        "http://localhost:8080",  # Alternative port
-        "http://127.0.0.1:8080"
-    ],
+    allow_origins=["*"],  # Allow all origins for now
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
