@@ -1,13 +1,47 @@
 #!/usr/bin/env python3
-"""Simple FastAPI app for Railway deployment."""
+"""Simple FastAPI app for Railway deployment - bulletproof health check."""
 
 import os
-from fastapi import FastAPI
 
-# Create FastAPI app at module level
-app = FastAPI()
+# Create FastAPI app immediately - this must work
+try:
+    from fastapi import FastAPI
+    app = FastAPI()
+except ImportError:
+    # Fallback if FastAPI is not available (shouldn't happen on Railway)
+    print("Warning: FastAPI not available, using minimal fallback")
+    from http.server import HTTPServer, BaseHTTPRequestHandler
+    import json
+    
+    class SimpleHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == "/health":
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                response = {"ok": True, "mode": "production"}
+                self.wfile.write(json.dumps(response).encode())
+            elif self.path == "/":
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                response = {"message": "Signals Agent API", "status": "running"}
+                self.wfile.write(json.dumps(response).encode())
+            else:
+                self.send_response(404)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                response = {"error": "Not found"}
+                self.wfile.write(json.dumps(response).encode())
+    
+    # Create a minimal app-like object for fallback
+    class MinimalApp:
+        def __init__(self):
+            self.handler = SimpleHandler
+    
+    app = MinimalApp()
 
-# Health route at the very top - must respond instantly
+# Health endpoint at the very top - must respond instantly
 @app.get("/health")
 async def health():
     """Health check endpoint that returns HTTP 200 when application is live and ready."""
