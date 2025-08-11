@@ -1775,3 +1775,7 @@ INFO:     127.0.0.1:58933 - "OPTIONS /health HTTP/1.1" 400 Bad Request
 INFO:     127.0.0.1:58934 - "GET /health HTTP/1.1" 200 OK
 INFO:     127.0.0.1:58979 - "OPTIONS /discovery HTTP/1.1" 400 Bad Request
 INFO:     127.0.0.1:59000 - "OPTIONS /discovery HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:61032 - "OPTIONS /health HTTP/1.1" 400 Bad Request
+2025-08-11 18:00:59,117 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:61033 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61033 - "OPTIONS /discovery HTTP/1.1" 400 Bad Request
