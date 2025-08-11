@@ -1,0 +1,10 @@
+signals-agent/
+requirements.txt
+Procfile
+runtime.txt
+*.py
+*.pyc
+__pycache__/
+.env
+.env.local
+.env.production
