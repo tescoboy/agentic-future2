@@ -2203,3 +2203,9 @@ INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
 INFO:     Finished server process [20407]
 ERROR:    Error loading ASGI app. Attribute "app" not found in module "simple_app".
+WARNING:  StatReload detected changes in 'simple_app.py'. Reloading...
+ERROR:    Error loading ASGI app. Attribute "app" not found in module "simple_app".
+WARNING:  StatReload detected changes in 'simple_app.py'. Reloading...
+INFO:     Started server process [21729]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
