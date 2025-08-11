@@ -2173,3 +2173,11 @@ INFO:     Finished server process [18673]
 INFO:     Started server process [18761]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'simple_app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18761]
+INFO:     Started server process [19526]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
