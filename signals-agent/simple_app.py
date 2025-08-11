@@ -179,7 +179,7 @@ async def root():
 
 @app.get("/health", tags=["Health"])
 async def health_check():
-    """Health check endpoint."""
+    """Health check endpoint for Railway."""
     try:
         logger.info("Health check requested")
         return {
