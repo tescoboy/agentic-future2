@@ -4,9 +4,9 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "cd signals-agent && uvicorn simple_app:app --host 0.0.0.0 --port $PORT",
+    "startCommand": "cd signals-agent && pip install -r ../requirements.txt && python start.py",
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 100,
+    "healthcheckTimeout": 600,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
