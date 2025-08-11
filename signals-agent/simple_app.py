@@ -178,25 +178,9 @@ async def root():
     }
 
 @app.get("/health", tags=["Health"])
-async def health_check():
-    """Health check endpoint for Railway."""
-    try:
-        logger.info("Health check requested")
-        return {
-            "status": "healthy",
-            "ok": True,
-            "mode": MODE,
-            "timestamp": datetime.now().isoformat(),
-            "version": "1.0.0"
-        }
-    except Exception as e:
-        logger.error(f"Health check failed: {e}")
-        return {
-            "status": "unhealthy",
-            "ok": False,
-            "error": str(e),
-            "timestamp": datetime.now().isoformat()
-        }
+async def health():
+    """Health check endpoint for Railway - must return HTTP 200 quickly."""
+    return {"ok": True, "mode": "production"}
 
 
 
@@ -567,5 +551,5 @@ async def force_activation_status(activation_id: str, status: str):
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="127.0.0.1", port=port, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("simple_app:app", host="0.0.0.0", port=port, reload=False)
