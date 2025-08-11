@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "cd signals-agent && pip install -r ../requirements.txt && python simple_app.py",
+    "startCommand": "cd signals-agent && pip install -r ../requirements.txt && python minimal_app.py",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
