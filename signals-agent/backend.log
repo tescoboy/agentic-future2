@@ -1770,3 +1770,8 @@ INFO:     127.0.0.1:65507 - "POST /discovery HTTP/1.1" 200 OK
 INFO:     127.0.0.1:55061 - "GET /health HTTP/1.1" 200 OK
 2025-08-11 17:10:33,716 - simple_app - INFO - Health check requested
 INFO:     127.0.0.1:55061 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58933 - "OPTIONS /health HTTP/1.1" 400 Bad Request
+2025-08-11 17:53:18,333 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:58934 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58979 - "OPTIONS /discovery HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:59000 - "OPTIONS /discovery HTTP/1.1" 400 Bad Request
