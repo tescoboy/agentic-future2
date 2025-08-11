@@ -44,7 +44,7 @@ function Discovery() {
     try {
       await apiClient.getHealth()
       setBackendStatus({ connected: true, message: 'Connected (demo)', variant: 'success' })
-    } catch (error) {
+    } catch {
       setBackendStatus({ connected: false, message: 'Connection failed', variant: 'danger' })
     }
   }
@@ -92,14 +92,7 @@ function Discovery() {
     setToasts(prev => prev.filter(toast => toast.id !== id))
   }
 
-  const copyToClipboard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text)
-      addToast('success', 'Copied to clipboard!')
-    } catch (error) {
-      addToast('danger', 'Failed to copy to clipboard')
-    }
-  }
+
 
   const formatDetails = (obj) => {
     return JSON.stringify(obj, null, 2)
