@@ -1,0 +1,13 @@
+INFO:     Started server process [74259]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2025-08-11 12:05:27,448 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:58438 - "GET /health HTTP/1.1" 200 OK
+2025-08-11 12:05:30,698 - simple_app - INFO - Discovery request: high value shoppers
+2025-08-11 12:05:30,698 - simple_app - INFO - Discovery response: 2 proposals
+INFO:     127.0.0.1:58451 - "POST /discovery HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [74259]

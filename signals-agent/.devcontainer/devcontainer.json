@@ -1,0 +1,27 @@
+{
+  "name": "Audience Agent Demo",
+  "image": "python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.formatting.provider": "black",
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+  "postCreateCommand": "pip install uv && uv sync && cp config.json.sample config.json && echo '\n🎯 Audience Agent Demo Ready!\n\nNext steps:\n1. Edit config.json to add your Gemini API key (get one at ai.google.dev)\n2. Run: uv run python database.py\n3. Run: uv run python client.py\n\nSee DEMO_GUIDE.md for complete instructions!\n'",
+  "remoteUser": "vscode"
+}

@@ -1,0 +1,48 @@
+# fly.toml app configuration file generated for audience-agent on 2025-07-25T18:40:28Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'audience-agent'
+primary_region = 'fra'
+
+[build]
+
+[processes]
+  app = "uv run fastmcp --transport http --port 8000 --host 0.0.0.0 unified_server.py"
+  sync = "uv run python sync_liveramp_catalog.py --full"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+# Persistent volume for database
+[mounts]
+  source = "signals_data"
+  destination = "/data"
+  processes = ["app", "sync"]
+
+[env]
+  DATABASE_PATH = "/data/signals_agent.db"
+
+# Main app VM configuration
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  processes = ['app']
+
+# Cron configuration for LiveRamp sync
+# Run daily at 2 AM UTC
+[[vm]]
+  memory = '2gb'  # More memory for sync process
+  cpu_kind = 'shared'
+  cpus = 2
+  processes = ['sync']
+  
+  [vm.schedule]
+    cron = "0 2 * * *"  # Daily at 2 AM UTC
