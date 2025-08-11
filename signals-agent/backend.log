@@ -1766,3 +1766,7 @@ INFO:     127.0.0.1:65484 - "GET /health HTTP/1.1" 200 OK
 2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Validation complete - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e, Valid: 5, Invalid: 0
 2025-08-11 16:48:10,964 - simple_app - INFO - Discovery response: 5 valid proposals, 5 matches, using_fallback=False
 INFO:     127.0.0.1:65507 - "POST /discovery HTTP/1.1" 200 OK
+2025-08-11 17:10:33,703 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:55061 - "GET /health HTTP/1.1" 200 OK
+2025-08-11 17:10:33,716 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:55061 - "GET /health HTTP/1.1" 200 OK
