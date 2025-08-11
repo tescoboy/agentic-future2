@@ -1682,3 +1682,87 @@ INFO:     127.0.0.1:63043 - "OPTIONS /discovery HTTP/1.1" 200 OK
 2025-08-11 16:39:06,724 - services.proposal_validator - INFO - Validation complete - Request ID: 0c555737-4ba3-4d62-817c-a5f9809ca5f9, Valid: 5, Invalid: 0
 2025-08-11 16:39:06,724 - simple_app - INFO - Discovery response: 5 valid proposals, 4 matches, using_fallback=False
 INFO:     127.0.0.1:63043 - "POST /discovery HTTP/1.1" 200 OK
+2025-08-11 16:47:58,031 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:65483 - "GET /health HTTP/1.1" 200 OK
+2025-08-11 16:47:58,038 - simple_app - INFO - Health check requested
+INFO:     127.0.0.1:65484 - "GET /health HTTP/1.1" 200 OK
+2025-08-11 16:48:02,341 - simple_app - INFO - Discovery request: shoppers
+2025-08-11 16:48:02,918 - services.ai_ranking - INFO - Gemini API initialized successfully
+2025-08-11 16:48:02,919 - simple_app - INFO - Step 1: Getting candidate signals from database
+2025-08-11 16:48:02,919 - services.signal_discovery - INFO - Getting candidate signals (query: 'shoppers' for AI ranking, platforms: None)
+2025-08-11 16:48:02,932 - services.signal_discovery - INFO - Found 200 unique candidate signals
+2025-08-11 16:48:02,932 - simple_app - INFO - Step 2: Ranking signals
+2025-08-11 16:48:02,932 - services.ai_ranking - INFO - Starting AI ranking for query: shoppers
+2025-08-11 16:48:06,591 - services.ai_ranking - INFO - AI ranking response: ```json
+[
+  {
+    "id": "proposal_001",
+    "name": "Shopping Interest Segment",
+    "description": "Targets users interested in shopping.",
+    "signals": ["peer39_200270"]
+  },
+  {
+    "id": "proposal_002",
+    "name": "Mobile Shopping Apps Segment",
+    "description": "Targets users of mobile shopping apps.",
+    "signals": ["peer39_200517"]
+  },
+  {
+    "id": "proposal_003",
+    "name": "Shopping and Seasonal Interests",
+    "description": "Targets users interested in shopping and seasonal events.",
+    "signals": ["peer39_200270", "peer39_200239", "peer39_200243", "peer39_200249", "peer39_200266"]
+  },
+  {
+    "id": "proposal_004",
+    "name": "Broad Shopping Audience",
+    "description": "Targets a broad audience with shopping interests.",
+    "signals": ["peer39_200270", "peer39_200271"]
+  },
+  {
+    "id": "proposal_005",
+    "name": "High-Value Shopping Segment",
+    "description": "Targets users likely to spend more on shopping.",
+    "signals":["peer39_200517","peer39_200537","peer39_200540"]
+  }
+]
+```
+
+2025-08-11 16:48:06,592 - services.ai_ranking - INFO - AI ranking completed successfully, ranked 9 signals
+2025-08-11 16:48:06,592 - simple_app - INFO - Step 3: Generating proposals
+2025-08-11 16:48:06,592 - services.ai_ranking - INFO - Starting AI proposal generation for query: shoppers
+2025-08-11 16:48:10,961 - services.ai_ranking - INFO - AI proposal generation completed successfully, generated 5 proposals
+2025-08-11 16:48:10,961 - simple_app - INFO - Step 4: Validating proposals
+2025-08-11 16:48:10,961 - services.proposal_validator - INFO - Starting proposal validation - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,961 - services.proposal_validator - INFO - Validating proposal proposal_001 - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Signal peer39_200270 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Common platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Updated proposal proposal_001 platforms to intersection: ['tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'] - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Proposal proposal_001 is VALID - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Validating proposal proposal_002 - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Signal peer39_200517 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Common platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Updated proposal proposal_002 platforms to intersection: ['tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'] - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Proposal proposal_002 is VALID - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Validating proposal proposal_003 - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Signal peer39_200270 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Signal peer39_200239 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Common platforms: {'tradedesk', 'google-ads', 'pubmatic', 'amazon', 'openx', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,962 - services.proposal_validator - INFO - Updated proposal proposal_003 platforms to intersection: ['tradedesk', 'google-ads', 'pubmatic', 'amazon', 'openx', 'the-trade-desk', 'index-exchange', 'dv360'] - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Proposal proposal_003 is VALID - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Validating proposal proposal_004 - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Signal peer39_200243 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Signal peer39_200249 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Common platforms: {'tradedesk', 'google-ads', 'pubmatic', 'amazon', 'openx', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Updated proposal proposal_004 platforms to intersection: ['tradedesk', 'google-ads', 'pubmatic', 'amazon', 'openx', 'the-trade-desk', 'index-exchange', 'dv360'] - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Proposal proposal_004 is VALID - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Validating proposal proposal_005 - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Signal peer39_200270 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Signal peer39_200239 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Signal peer39_200243 platforms: {'tradedesk', 'google-ads', 'pubmatic', 'openx', 'amazon', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Common platforms: {'tradedesk', 'google-ads', 'pubmatic', 'amazon', 'openx', 'the-trade-desk', 'index-exchange', 'dv360'} - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Updated proposal proposal_005 platforms to intersection: ['tradedesk', 'google-ads', 'pubmatic', 'amazon', 'openx', 'the-trade-desk', 'index-exchange', 'dv360'] - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Proposal proposal_005 is VALID - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e
+2025-08-11 16:48:10,963 - services.proposal_validator - INFO - Validation complete - Request ID: e442d492-0c1c-4259-99e2-039adfc6ee0e, Valid: 5, Invalid: 0
+2025-08-11 16:48:10,964 - simple_app - INFO - Discovery response: 5 valid proposals, 5 matches, using_fallback=False
+INFO:     127.0.0.1:65507 - "POST /discovery HTTP/1.1" 200 OK
