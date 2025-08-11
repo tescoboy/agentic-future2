@@ -180,16 +180,37 @@ SAMPLE_SIGNALS = [
 # In-memory storage for activations
 activations = {}
 
+# Root endpoint for Railway health checks
+@app.get("/", tags=["Root"])
+async def root():
+    """Root endpoint for health checks."""
+    return {
+        "message": "Signals Agent API",
+        "status": "running",
+        "version": "1.0.0",
+        "docs": "/docs"
+    }
+
 @app.get("/health", tags=["Health"])
 async def health_check():
     """Health check endpoint."""
-    logger.info("Health check requested")
-    return {
-        "ok": True,
-        "mode": MODE,
-        "timestamp": datetime.now().isoformat(),
-        "version": "1.0.0"
-    }
+    try:
+        logger.info("Health check requested")
+        return {
+            "status": "healthy",
+            "ok": True,
+            "mode": MODE,
+            "timestamp": datetime.now().isoformat(),
+            "version": "1.0.0"
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {
+            "status": "unhealthy",
+            "ok": False,
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
 
 
 

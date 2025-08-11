@@ -30,6 +30,7 @@ def main():
     # Get port from environment
     port = os.getenv("PORT", "8000")
     print(f"🌐 Will start on port: {port}")
+    print(f"🔗 Health check will be at: http://0.0.0.0:{port}/")
     
     # Start the server
     print("🚀 Starting uvicorn server...")
@@ -38,7 +39,8 @@ def main():
             sys.executable, "-m", "uvicorn", 
             "simple_app:app", 
             "--host", "0.0.0.0", 
-            "--port", port
+            "--port", port,
+            "--log-level", "info"
         ], check=True)
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to start server: {e}")
